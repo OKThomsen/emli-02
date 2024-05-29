@@ -1,0 +1,17 @@
+{
+  "File Name": "013305_288.jpg",
+  "Create Date": "2024-05-23 01:33:07288+02:00",
+  "Create Seconds Epoch": "1716420787288",
+  "Trigger": "timer",
+  "Subject Distance": "m",
+  "Exposure Time": "1/40",
+  "ISO": "112",
+  "Drone Copy": {
+    "Drone ID": "WILDDRONE-001",
+    "Seconds Epoch": 1716554353.5651426
+  },
+  "Annotation": {
+    "Source": "LLaVA",
+    "Text": "Failed to get annotation"
+  }
+}
