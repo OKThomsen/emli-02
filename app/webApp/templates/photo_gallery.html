@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery for {{ date }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+        .photo img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .metadata {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
+            white-space: pre-wrap; /* Ensures JSON metadata wraps properly */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Photo Gallery for {{ date }}</h1>
+        <div class="row">
+            {% for photo in photos %}
+            <div class="col-md-4">
+                <div class="photo">
+                    <img src="{{ url_for('serve_photos', filename=photo.file_name) }}" alt="{{ photo.file_name }}" data-toggle="modal" data-target="#photoModal" data-src="{{ url_for('serve_photos', filename=photo.file_name) }}">
+                    <div class="metadata">
+                        <pre>{{ photo.metadata }}</pre>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="photoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="photoModalLabel">Photo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImage" src="" alt="Photo" style="width: 100%; height: auto;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        $('#photoModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var src = button.data('src') // Extract info from data-* attributes
+            var modal = $(this)
+            modal.find('.modal-body #modalImage').attr('src', src)
+        })
+    </script>
+</body>
+
+</html>

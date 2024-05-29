@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <style>
+        .date-folder {
+            margin-bottom: 20px;
+        }
+
+        .date-link {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .date-link:hover {
+            text-decoration: underline;
+        }
+
+        .log-entry {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Photo Gallery</h1>
+        <div id="date-folders">
+            {% for date in dates %}
+            <div class="date-folder">
+                <a href="{{ url_for('view_photos', date=date) }}" class="date-link">{{ date }}</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2>Event Log</h2>
+        <div id="log-entries">
+            {% for entry in log_entries %}
+            <div class="log-entry">{{ entry }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>
