@@ -1,0 +1,17 @@
+{
+  "File Name": "183530_105.jpg",
+  "Create Date": "2024-05-29 18:35:32105+02:00",
+  "Create Seconds Epoch": "1717000532105",
+  "Trigger": "motion",
+  "Subject Distance": "m",
+  "Exposure Time": "1/16",
+  "ISO": "616",
+  "Drone Copy": {
+    "Drone ID": "WILDDRONE-001",
+    "Seconds Epoch": 1717109480.8636048
+  },
+  "Annotation": {
+    "Source": "LLaVA",
+    "Text": " The image shows an indoor scene with a focus on a white wall. In the bottom right corner, there appears to be a digital device, possibly a router or modem, with cables plugged into it. There is also a small portion of what seems like a computer monitor in the foreground, but it's mostly obscured by other objects. The lighting in the room is dim, and the overall atmosphere suggests a quiet, possibly unoccupied space. There are no texts or distinctive features that provide additional context about the location or purpose of this image. "
+  }
+}
