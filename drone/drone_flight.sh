@@ -8,21 +8,19 @@ PI_PICTURES_DIR="/home/wildlife/app/webApp/photos"
 LOCAL_PICTURES_DIR="./photos"
 DRONE_ID="WILDDRONE-001"
 LOG_FILE="./sync_log.txt"
-PI_PASSWORD="camera1234"  # Replace with the actual Raspberry Pi password
+PI_PASSWORD="camera1234"
 
-# Function to connect to Wi-Fi
 connect_to_wifi() {
-    echo "Connecting to Wi-Fi SSID: $SSID"
+    echo "Connecting to: $SSID"
     nmcli d wifi connect "$SSID" password "$PASSWORD"
     if [ $? -ne 0 ]; then
-        echo "Failed to connect to Wi-Fi." | tee -a $LOG_FILE
+        echo "Failed to connect" | tee -a $LOG_FILE
         return 1
     fi
-    echo "Connected to Wi-Fi successfully." | tee -a $LOG_FILE
+    echo "Connected successfully." | tee -a $LOG_FILE
     return 0
 }
 
-# Function to synchronize time with the Raspberry Pi
 sync_time() {
     echo "Synchronizing time with the Raspberry Pi..."
     local current_time=$(date +%s)
@@ -35,7 +33,6 @@ sync_time() {
     return 0
 }
 
-# Function to copy unique files from Raspberry Pi to laptop
 copy_files() {
     echo "Copying files from Raspberry Pi..."
     sshpass -p "$PI_PASSWORD" rsync -avz --ignore-existing "$PI_USER@$PI_IP:$PI_PICTURES_DIR/" "$LOCAL_PICTURES_DIR"
@@ -47,7 +44,6 @@ copy_files() {
     return 0
 }
 
-# Function to update JSON files on the laptop
 update_json_files() {
     echo "Updating JSON files on the laptop..."
     find "$LOCAL_PICTURES_DIR" -type f -name '*.json' | while read json_file; do
@@ -79,7 +75,6 @@ EOPYTHON
     return 0
 }
 
-# Main script execution
 echo "Script started at $(date)" | tee -a $LOG_FILE
 
 connect_to_wifi
@@ -106,11 +101,21 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# Call the annotation script
 ./annotate.sh "$LOCAL_PICTURES_DIR"
 if [ $? -ne 0 ]; then
     echo "Error annotating pictures." | tee -a $LOG_FILE
     exit 1
 fi
 
+find "$LOCAL_PICTURES_DIR" -type f -name '*.json' | while read -r json_file; do
+    if grep -q '"Annotation"' "$json_file"; then
+        git add "$json_file"
+    fi
+done
+
+git commit -m "Add annotations to JSON files"
+git push git@github.com:OKThomsen/emli-02.git
+
 echo "Script completed successfully at $(date)" | tee -a $LOG_FILE
+
+
