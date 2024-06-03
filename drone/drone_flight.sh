@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SSID="EMLI-TEAM-02"
+SSID="EMLI-TEAM-\d{2}"
 PASSWORD="camera1234"
 PI_USER="wildlife"
 PI_IP="192.168.10.1"
